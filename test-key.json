@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "noctrix-dev-12345",
+  "private_key_id": "f0c945296d3d6885fe6252ac55560cb71351cc37",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDOk5Rn4TOPsqPk\nTjEbYBfRa5nEy1okHgLZlGngtla7X91GWLlm+yPzesZLC/OBR1sIrsousp3dIpfL\np7+W3S79GFPlsCUBwbBvy5Er6kuQr1wzxF/6oUuu9mPM817D1kVuowJk11nPOmIn\nYdQbZ5EN0xGtv5vGyrIR/e7IlHvm/blxVK0jQFVNe8VDYL+GxujJu/ZXBl7LiiEz\nOKUbEyU9JOdGtCOv8edms0SFg2E05xot37K46uwhFMeRtGWhBdXV2jfJvyNS2xX+\nHme6WT79r2KsgCxez08jUsLv8og2EkxsreJ/FHegYLR43ybiPdnuFB92msmN3JjM\nVJwmBXrdAgMBAAECggEABrx4bFXDOcDxyA4GWxXsWOjObBopz5Ux8xiRm6Feh9WA\nW0elOMGLl9LjA0tPDrdotXUGWfT69wfRKt6GvcZAfsIrvt5E//8UquSYuzWfRAcl\nNXlGcZ9lCX4hMtZPJV7dR0EQtitGk15xmRv/JRX2Ed0WOGlP4gY16HvJwlKDOCed\nZm5+OqdJtXfvkF7XmhhwvX4zkND/Zvj/S7dI+Czsw8Diw5xG9QkqsP7xHDkytQc5\nkBdiFziMI0IzKn5XDNx/iTyZGpvs1846xzGb6Gu+rETcePaye7XV3kQcCjoTmMM0\ni9JRFLQ/6X1YiPe8sHDvpp0e2yLAAgwOur4UdEjKwQKBgQD16W67Kjy1AZCFRhuA\np6xvj8vj9bsqU4v1BfLybYyBxCxXnNts5/IqlnHpnOyDjE/H0SCMMlBY1sXaMgbi\np8hvc0o2djn/uws85jVPY8NKFFdDfCCwHSMC/MsfOnU6yOHYhq4A4odk1uuSpSO0\ncTAXhrHCoEX+5vTxAwEJ2ekJHQKBgQDXDQwHatyr0Mct8b3060HIvpoBjCkrJg8X\nMrkVOCeppnkQLZHuKAZ6ewd0Q59PMRv6ROpAvLtqIsmKbzhAotNwQmxEYi5JlqpL\nQwxZ1Fs6iZakmHCPzaOGAbJ/V64tffGOZg0HpvP/nzX67YYzqRwz9U/rL65yXxpu\n1yzLyFVMwQKBgAFburrZ7t/pFE1IJ9q8El3DY5Lsxo3jTECcOc1RAZet57jMKwIc\n/d9yWUq7DStk2QP3icB8fqke9pTP9e3Gk3raHizS1lstQ1CgzOaVXHzKQ/khdGTE\npG7dyplvjzo15dl2VPu4RJsv/LkgpGPYxDU9DzpN/FT+HZg/NgBB7eGZAoGATqT/\n1CqZXuAwJzYz8MCkQySpL42xdI0rkaFEHGV348v0lB0GNCFBFUOu2y7rsMtV3vWa\n8WfT5iGosM6xtLmXN4OjEnMRWGoYBwQTHTrSzhqJE9KHv59FgPlX7MgE87AOSbQ6\naaT9sGrqE8UPgg8DOGErA+hhFISBJy3bvP6ba0ECgYEAj995Zei6htTSF8HuZ1RV\nE/f8FZwW4bpq3JoZULMBqree6trOkKADCY5A4thfZbkTCXrHErvUy92DaALYqwTS\nIpOumFI99VjdVnAyv9vg/+dgfi9wUCSFNfipGO8hzArJNqNKsTlaZFJIEtV4eV6H\nJx+TBf65ftsWAdyPuC1Lv7E=\n-----END PRIVATE KEY-----\n",
+  "client_email": "noctrix-test-sa@noctrix-dev-12345.iam.gserviceaccount.com",
+  "client_id": "102478504057102221947",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/noctrix-test-sa%40noctrix-dev-12345.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}
