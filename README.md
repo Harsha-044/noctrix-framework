@@ -41,7 +41,7 @@ flowchart LR
 ## Dashboard & Attack Path Visuals
 
 ### SOC Security Posture Dashboard (Streamlit)
-![NOCTRIX Streamlit Dashboard](docs/assets/streamlit-dashboard.png)
+![NOCTRIX Streamlit Dashboard](docs/assets/streamlit-dashboard-v2.png)
 
 ### Multi-Cloud Attack Path Mapping (Neo4j)
 ![NOCTRIX Neo4j Attack Graph](docs/assets/neo4j-attack-graph.png)
