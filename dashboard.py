@@ -1,7 +1,12 @@
 import os
+from dotenv import load_dotenv
 import streamlit as st
+import streamlit.components.v1 as components
 import pandas as pd
 from neo4j import GraphDatabase
+from pyvis.network import Network
+
+load_dotenv()
 
 # Page Configuration
 st.set_page_config(
@@ -47,7 +52,7 @@ neo4j_uri = st.sidebar.text_input("URI", value=os.getenv("NEO4J_URI", "bolt://lo
 neo4j_user = st.sidebar.text_input("User", value=os.getenv("NEO4J_USER", "neo4j"))
 neo4j_pass = st.sidebar.text_input(
     "Password",
-     value=os.getenv("NEO4J_PASSWORD", ""),
+    value=os.getenv("NEO4J_PASSWORD", ""),
     type="password",
 )
 
@@ -102,7 +107,7 @@ df, paths_df, error = fetch_neo4j_data(neo4j_uri, neo4j_user, neo4j_pass)
 
 if error:
     st.error(f"Could not connect to Neo4j: {error}")
-    st.info("Verify your Docker container (`noctrix-neo4j`) is running and the password in the sidebar matches `main.py`.")
+    st.info("Verify your Docker container (`noctrix-neo4j`) is running and the password in `.env` matches.")
     st.stop()
 
 if df.empty:
@@ -184,11 +189,33 @@ st.dataframe(
     },
 )
 
-# --- Neo4j Attack Path Explorer ---
+# --- Neo4j Interactive Attack Path Explorer ---
 st.markdown("---")
-st.markdown("### Neo4j Attack Path Explorer (`Identity → Policy → Resource`)")
+st.markdown("### Neo4j Interactive Attack Path Explorer (`Identity → Policy → Resource`)")
 
 if paths_df.empty:
     st.info("No active attack paths mapped in Neo4j for the current scan.")
 else:
-    st.dataframe(paths_df, use_container_width=True, hide_index=True)
+    net = Network(height="480px", width="100%", bgcolor="#0e1117", font_color="#f0f6fc", directed=True)
+    net.barnes_hut(gravity=-3000, central_gravity=0.3, spring_length=140)
+
+    for _, row in paths_df.iterrows():
+        ident = str(row["Identity"])
+        policy = str(row["Policy"])
+        resource = str(row["Target_Resource"])
+        risk = float(row["Risk_Score"])
+
+        ident_color = "#f85149" if risk >= 50 else "#d29922" if risk >= 25 else "#3fb950"
+
+        net.add_node(ident, label=ident, color=ident_color, title=f"Identity | Risk: {risk}")
+        net.add_node(policy, label=policy, color="#58a6ff", shape="box", title="IAM Policy")
+        net.add_node(resource, label=resource, color="#a371f7", shape="diamond", title=row["Resource_Type"])
+
+        net.add_edge(ident, policy, label="HAS_POLICY", color="#8b949e")
+        net.add_edge(policy, resource, label="CAN_ACCESS", color="#f85149")
+
+    html_graph = net.generate_html()
+    components.html(html_graph, height=500, scrolling=False)
+
+    with st.expander("View Raw Attack Path Table"):
+        st.dataframe(paths_df, use_container_width=True, hide_index=True)

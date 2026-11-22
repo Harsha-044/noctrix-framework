@@ -7,5 +7,5 @@ class NonHumanIdentity(BaseModel):
     identity_type: str
     days_inactive: int
     has_admin_privileges: bool
-    risk_score: float = 0.0
-    policies: List[str] = []
+    ghost_confidence: float = 0.0
+    correlated_leak: bool = False
