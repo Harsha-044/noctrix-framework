@@ -1,5 +1,6 @@
 from neo4j import GraphDatabase
 
+
 class GraphLoader:
     def __init__(self, uri, user, password):
         self.driver = GraphDatabase.driver(uri, auth=(user, password))
@@ -10,7 +11,6 @@ class GraphLoader:
     def ingest_identities(self, identities):
         with self.driver.session() as session:
             for ident in identities:
-                # 1. Merge the Identity node
                 session.run(
                     """
                     MERGE (i:Identity {id: $id})
@@ -18,37 +18,60 @@ class GraphLoader:
                         i.type = $type,
                         i.daysInactive = $days_inactive,
                         i.riskScore = $risk_score,
-                        i.isAdmin = $has_admin
+                        i.isAdmin = $has_admin,
+                        i.ghostConfidence = $ghost_confidence,
+                        i.correlatedLeak = $correlated_leak
                     """,
-                    id=ident['id'], name=ident['name'], 
-                    type=ident['identity_type'], 
-                    days_inactive=ident['days_inactive'], 
-                    risk_score=ident['risk_score'],
-                    has_admin=ident['has_admin_privileges']
+                    id=ident.get("id", "unknown_id"),
+                    name=ident.get("name", "Unknown"),
+                    type=ident.get("identity_type", "Unknown"),
+                    days_inactive=ident.get("days_inactive", 0),
+                    risk_score=ident.get("risk_score", 0.0),
+                    has_admin=ident.get("has_admin_privileges", False),
+                    ghost_confidence=ident.get("ghost_confidence", 0.0),
+                    correlated_leak=ident.get("correlated_leak", False),
                 )
-                
-                # 2. Merge the Policy/File node and create the relationship
+
                 for policy in ident.get("policies", []):
-                    session.run("""
+                    session.run(
+                        """
                         MATCH (i:Identity {id: $id})
                         MERGE (p:Policy {name: $policy_name})
                         MERGE (i)-[:HAS_POLICY]->(p)
-                    """, id=ident["id"], policy_name=policy)
+                        """,
+                        id=ident.get("id"),
+                        policy_name=policy,
+                    )
 
     def ingest_attack_paths(self, identities, buckets):
         with self.driver.session() as session:
-            # 1. Ingest S3 Resources
+            # 1. Ingest S3 and GCS Resources
             for b in buckets:
+                b_type = b.get(
+                    "type",
+                    "GCS_BUCKET" if b.get("provider") == "GCP" else "S3_BUCKET",
+                )
+                b_id = b.get("id") or b.get("name", "unknown_bucket")
                 session.run(
-                    "MERGE (r:Resource {id: $id}) SET r.name = $name, r.type = $type",
-                    id=b['id'], name=b['name'], type=b['type']
+                    """
+                    MERGE (r:Resource {id: $id})
+                    SET r.name = $name,
+                        r.type = $type,
+                        r.isPublic = $is_public
+                    """,
+                    id=b_id,
+                    name=b.get("name", "Unknown Bucket"),
+                    type=b_type,
+                    is_public=b.get("is_public", False),
                 )
 
             # 2. Build Paths: Identity -> Policy -> Resource (for AWS Admins)
             for ident in identities:
-                if ident.get('has_admin_privileges'):
-                    session.run("""
+                if ident.get("has_admin_privileges"):
+                    session.run(
+                        """
                         MATCH (p:Policy {name: 'AdministratorAccess'})
                         MATCH (r:Resource {type: 'S3_BUCKET'})
                         MERGE (p)-[:CAN_ACCESS]->(r)
-                    """)
+                        """
+                    )
