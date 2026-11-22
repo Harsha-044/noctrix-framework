@@ -37,3 +37,11 @@ flowchart LR
 
 ## Documentation
 - [L1 SOC Triage & Remediation Runbook](docs/SOC_RUNBOOK.md)
+
+## Dashboard & Attack Path Visuals
+
+### SOC Security Posture Dashboard (Streamlit)
+![NOCTRIX Streamlit Dashboard](docs/assets/streamlit-dashboard.png)
+
+### Multi-Cloud Attack Path Mapping (Neo4j)
+![NOCTRIX Neo4j Attack Graph](docs/assets/neo4j-attack-graph.png)
