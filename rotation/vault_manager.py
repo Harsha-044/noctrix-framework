@@ -1,8 +1,9 @@
+import os
 import hvac
 
 class VaultManager:
-    def __init__(self, vault_url="http://127.0.0.1:8200", token="dev-root-token"):
-        self.client = hvac.Client(url=vault_url, token=token)
+    def __init__(self, vault_url=None, token=None):
+        self.client = hvac.Client(url=vault_url or os.getenv("VAULT_ADDR", "http://127.0.0.1:8200"), token=token or os.getenv("VAULT_TOKEN", "root"))
 
     def rotate_aws_credentials(self, role_name="noctrix-admin-role"):
         print(f"[*] ROTATION TRIGGERED: Requesting new short-lived AWS credentials from Vault for '{role_name}'...")
